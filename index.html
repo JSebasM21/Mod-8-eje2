@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Contador interactivo profesional con JavaScript - Contador preciso y sin errores">
+    <title>Contador Pro Plus - Sin Errores</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <div class="header-left">
+                <h1 class="titulo">
+                    <i class="fas fa-calculator"></i> 
+                    <span class="titulo-texto">Contador Pro</span>
+                    <span class="version-badge">v2.0</span>
+                </h1>
+                <p class="subtitulo">Contador preciso • Sin errores • Persistente</p>
+            </div>
+            <div class="header-right">
+                <div class="stats">
+                    <div class="stat-item">
+                        <span class="stat-label">Sesión:</span>
+                        <span id="sesionCount" class="stat-value">0</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Historial:</span>
+                        <span id="historialCount" class="stat-value">0</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Display principal -->
+        <div class="contador-display" id="contadorDisplay">
+            <div class="display-header">
+                <span class="display-label">Valor Actual</span>
+                <span class="display-time" id="displayTime"></span>
+            </div>
+            <div class="numero-container">
+                <span id="contador" class="numero">0</span>
+                <div class="numero-suffix" id="numeroSuffix"></div>
+            </div>
+            <div class="display-footer">
+                <div class="status-indicator" id="statusIndicator">
+                    <i class="fas fa-check-circle"></i>
+                    <span>Listo</span>
+                </div>
+                <div class="limits">
+                    <span class="limit-label">Límites: </span>
+                    <span id="currentLimits">-∞ a +∞</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Control de límites -->
+        <div class="limits-control">
+            <h3><i class="fas fa-sliders-h"></i> Configurar Límites</h3>
+            <div class="limits-inputs">
+                <div class="input-group">
+                    <label for="minLimit"><i class="fas fa-arrow-down"></i> Mínimo</label>
+                    <input type="number" id="minLimit" value="-100" class="limit-input">
+                </div>
+                <div class="input-group">
+                    <label for="maxLimit"><i class="fas fa-arrow-up"></i> Máximo</label>
+                    <input type="number" id="maxLimit" value="100" class="limit-input">
+                </div>
+                <button id="btnApplyLimits" class="btn-limit">
+                    <i class="fas fa-check"></i> Aplicar
+                </button>
+            </div>
+            <div class="limits-info" id="limitsInfo"></div>
+        </div>
+
+        <!-- Botones principales -->
+        <div class="botones-principales">
+            <button id="btnDecrementar10" class="btn btn-danger btn-large" data-value="-10">
+                <span class="icono">-10</span>
+                <span class="btn-text">Decrementar 10</span>
+            </button>
+            
+            <button id="btnDecrementar" class="btn btn-danger" data-value="-1">
+                <span class="icono">-1</span>
+                <span class="btn-text">Decrementar</span>
+            </button>
+            
+            <button id="btnResetear" class="btn btn-secondary btn-reset">
+                <span class="icono"><i class="fas fa-redo"></i></span>
+                <span class="btn-text">Resetear</span>
+            </button>
+            
+            <button id="btnIncrementar" class="btn btn-success" data-value="1">
+                <span class="icono">+1</span>
+                <span class="btn-text">Incrementar</span>
+            </button>
+            
+            <button id="btnIncrementar10" class="btn btn-success btn-large" data-value="10">
+                <span class="icono">+10</span>
+                <span class="btn-text">Incrementar 10</span>
+            </button>
+        </div>
+
+        <!-- Botones rápidos -->
+        <div class="botones-rapidos">
+            <h3><i class="fas fa-bolt"></i> Acciones Rápidas</h3>
+            <div class="quick-buttons">
+                <button class="btn-quick" data-value="-50">
+                    <i class="fas fa-minus-circle"></i> -50
+                </button>
+                <button class="btn-quick" data-value="-25">
+                    <i class="fas fa-minus"></i> -25
+                </button>
+                <button class="btn-quick" data-value="-5">
+                    <i class="fas fa-chevron-down"></i> -5
+                </button>
+                <button class="btn-quick" data-value="5">
+                    <i class="fas fa-chevron-up"></i> +5
+                </button>
+                <button class="btn-quick" data-value="25">
+                    <i class="fas fa-plus"></i> +25
+                </button>
+                <button class="btn-quick" data-value="50">
+                    <i class="fas fa-plus-circle"></i> +50
+                </button>
+            </div>
+        </div>
+
+        <!-- Entrada manual -->
+        <div class="entrada-manual">
+            <h3><i class="fas fa-keyboard"></i> Entrada Manual</h3>
+            <div class="input-group-manual">
+                <input type="number" id="inputManual" 
+                       placeholder="Escribe un número..." 
+                       class="input-manual"
+                       min="-999999"
+                       max="999999">
+                <button id="btnSetValue" class="btn-manual">
+                    <i class="fas fa-arrow-right"></i> Establecer
+                </button>
+            </div>
+            <div class="input-hints">
+                <span class="hint"><i class="fas fa-info-circle"></i> Puedes usar números positivos y negativos</span>
+            </div>
+        </div>
+
+        <!-- Información y estado -->
+        <div class="info-panel">
+            <div class="info-item">
+                <div class="info-icon">
+                    <i class="fas fa-info-circle"></i>
+                </div>
+                <div class="info-content">
+                    <p id="mensaje" class="mensaje">El contador está en <strong>cero</strong></p>
+                    <p id="estadoContador" class="estado">Estado: Normal • Límites no alcanzados</p>
+                </div>
+            </div>
+            <div class="info-stats">
+                <div class="stat-box">
+                    <span class="stat-title">Valor Mínimo</span>
+                    <span id="minValue" class="stat-number">0</span>
+                </div>
+                <div class="stat-box">
+                    <span class="stat-title">Valor Máximo</span>
+                    <span id="maxValue" class="stat-number">0</span>
+                </div>
+                <div class="stat-box">
+                    <span class="stat-title">Cambios</span>
+                    <span id="changeCount" class="stat-number">0</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Historial -->
+        <div class="historial">
+            <div class="historial-header">
+                <h3><i class="fas fa-history"></i> Historial de Cambios</h3>
+                <div class="historial-controls">
+                    <button id="btnClearHistory" class="btn-small">
+                        <i class="fas fa-trash"></i> Limpiar
+                    </button>
+                    <button id="btnExportHistory" class="btn-small">
+                        <i class="fas fa-download"></i> Exportar
+                    </button>
+                </div>
+            </div>
+            <div class="historial-list" id="historialList">
+                <!-- Historial se cargará aquí -->
+            </div>
+        </div>
+
+        <!-- Panel de sonido y efectos -->
+        <div class="settings-panel">
+            <h3><i class="fas fa-cog"></i> Configuración</h3>
+            <div class="settings-grid">
+                <div class="setting">
+                    <input type="checkbox" id="soundToggle" checked>
+                    <label for="soundToggle">
+                        <i class="fas fa-volume-up"></i> Sonidos
+                    </label>
+                </div>
+                <div class="setting">
+                    <input type="checkbox" id="animationsToggle" checked>
+                    <label for="animationsToggle">
+                        <i class="fas fa-film"></i> Animaciones
+                    </label>
+                </div>
+                <div class="setting">
+                    <input type="checkbox" id="notificationsToggle" checked>
+                    <label for="notificationsToggle">
+                        <i class="fas fa-bell"></i> Notificaciones
+                    </label>
+                </div>
+                <div class="setting">
+                    <input type="checkbox" id="autoSaveToggle" checked>
+                    <label for="autoSaveToggle">
+                        <i class="fas fa-save"></i> Auto-guardado
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <p class="footer-text">
+                <i class="fas fa-shield-alt"></i> 
+                Contador Pro - Diseñado para ser completamente libre de errores
+            </p>
+            <p class="footer-version">
+                Versión 2.0 • Última actualización: <span id="currentDate"></span>
+            </p>
+        </div>
+    </div>
+
+    <!-- Audio Elements -->
+    <audio id="clickSound" preload="auto">
+        <source src="https://assets.mixkit.co/sfx/preview/mixkit-select-click-1109.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="errorSound" preload="auto">
+        <source src="https://assets.mixkit.co/sfx/preview/mixkit-wrong-answer-fail-notification-946.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="successSound" preload="auto">
+        <source src="https://assets.mixkit.co/sfx/preview/mixkit-correct-answer-tone-2870.mp3" type="audio/mpeg">
+    </audio>
+
+    <script src="script.js"></script>
+</body>
+</html>
